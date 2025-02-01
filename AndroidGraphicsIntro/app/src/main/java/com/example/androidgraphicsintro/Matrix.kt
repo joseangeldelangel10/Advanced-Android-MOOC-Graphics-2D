@@ -2,10 +2,17 @@ package com.example.androidgraphicsintro
 
 import java.lang.Exception
 
+enum class MatrixFlatteningMode {
+    AVERAGE,
+    MAX,
+    MIN
+}
+
 class MatrixTwoDim {
     val height: Int
     val width: Int
     val values: MutableList<MutableList<Float>>
+
     constructor(dim1: Int, dim2: Int, vals: MutableList<MutableList<Float>>){
         if (MatrixStatic.isValid(dim1, dim2, vals) ){
             height = dim1
@@ -16,7 +23,7 @@ class MatrixTwoDim {
         }
     }
 
-    fun sumMat(matB : MatrixTwoDim): MatrixTwoDim {
+    fun sumMat(matB : MatrixTwoDim, isSubstraction: Boolean = false): MatrixTwoDim {
         if (matB.height != this.height || matB.width != this.width){
             throw Exception("invalid matrix sum")
         }
@@ -25,7 +32,11 @@ class MatrixTwoDim {
         }
         for (i in 0 until this.height){
             for (j in 0 until this.width) {
-                result[i][j] = this.values[i][j] + matB.values[i][j]
+                if (!isSubstraction) {
+                    result[i][j] = this.values[i][j] + matB.values[i][j]
+                } else {
+                    result[i][j] = this.values[i][j] - matB.values[i][j]
+                }
             }
         }
         return MatrixTwoDim(this.height, this.width, result)
@@ -63,6 +74,23 @@ class MatrixTwoDim {
         }
         return MatrixTwoDim(this.width, this.height, result)
     }
+
+    fun flatten(flatteningMode: MatrixFlatteningMode = MatrixFlatteningMode.AVERAGE): List<Float> {
+        var result : MutableList<Float> = MutableList(this.width){0F}
+        when (flatteningMode){
+            MatrixFlatteningMode.AVERAGE -> {
+                for (i in 0 until this.height){
+                    for (j in 0 until this.width){
+                        result[j] += this.values[i][j]
+                    }
+                }
+                return result.map { a -> a/this.height }
+            }
+            MatrixFlatteningMode.MAX -> throw NotImplementedError()
+            MatrixFlatteningMode.MIN -> throw NotImplementedError()
+        }
+    }
+
 
 }
 

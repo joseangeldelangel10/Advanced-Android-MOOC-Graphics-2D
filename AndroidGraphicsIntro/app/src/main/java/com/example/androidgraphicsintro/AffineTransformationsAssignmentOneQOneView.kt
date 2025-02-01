@@ -11,7 +11,7 @@ import android.util.AttributeSet
 import android.view.View
 import com.example.androidgraphicsintro.MatrixTwoDim
 import com.example.androidgraphicsintro.MathUtils
-class MyView(context: Context, attrs: AttributeSet? = null): View(context, attrs) {
+class AffineTransformationsAssignmentOneQOneView(context: Context, attrs: AttributeSet? = null): View(context, attrs) {
 
     var redPaint: Paint
     var bluePaint: Paint
@@ -36,10 +36,11 @@ class MyView(context: Context, attrs: AttributeSet? = null): View(context, attrs
         myPaint.strokeWidth = 5F
 
         polygon = listOf<List<Float>>(
-            listOf(500F, 300F, 1F),
-            listOf(500F, 400F, 1F),
-            listOf(600F, 400F, 1F),
-            listOf(600F, 300F, 1F),
+            listOf(50F, 300F, 1F),
+            listOf(150F, 400F, 1F),
+            listOf(180F, 340F, 1F),
+            listOf(240F, 420F, 1F),
+            listOf(300F, 200F, 1F),
         ) as MutableList<MutableList<Float>>
     }
 
@@ -112,19 +113,26 @@ class MyView(context: Context, attrs: AttributeSet? = null): View(context, attrs
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
 
-        val linear = LinearGradient(500F, 400F, 600F, 300F, Color.BLUE, Color.RED, Shader.TileMode.MIRROR)
+        val linear = LinearGradient(50F, 300F, 300F, 200F, Color.BLUE, Color.RED, Shader.TileMode.MIRROR)
         val gradientPaint = Paint()
         gradientPaint.style = Paint.Style.FILL
         gradientPaint.shader = linear
 
-        val polygonMat = MatrixTwoDim(4, 3, polygon)
-        val polygonCentroid = polygonMat.flatten()
+        val polygonMat = MatrixTwoDim(5, 3, polygon)
         val homogeneusPolygonMat = polygonMat.transpose()
-        val polygonMinusCenter = translate(homogeneusPolygonMat, -polygonCentroid[0].toInt(), -polygonCentroid[1].toInt())
-        val polygonRotated = rotate(polygonMinusCenter, 45)
-        val polygonRotatedBackInCenter = translate(polygonRotated, polygonCentroid[0].toInt(), polygonCentroid[1].toInt())
+        drawPolygon(homogeneusPolygonMat, canvas, this.redPaint)
+        val translatedPolygonMat = translate(homogeneusPolygonMat, 20, 40)
+        drawPolygon(translatedPolygonMat, canvas, this.bluePaint)
+        val rotatedPolygonMat = rotate(homogeneusPolygonMat, 90)
+        val rotatedPolygonMatTwo = translate(rotatedPolygonMat, 1000, 1000)
+        drawPolygon(rotatedPolygonMatTwo, canvas, this.myPaint)
 
-        drawPolygon(polygonRotatedBackInCenter, canvas, gradientPaint)
+        // answer to assignment
+        val sharedPolygon = shear(homogeneusPolygonMat, 2.0F, 0.0F)
+        val scaledPolygon = scale(sharedPolygon, 0.5F, 3.0F)
+        val rotatedPolygon = rotate(scaledPolygon, 45)
+        val translatedPolygon = translate(rotatedPolygon, 550, 0)
+        drawPolygon(translatedPolygon, canvas, gradientPaint)
     }
 
 }
