@@ -8,7 +8,9 @@ import android.util.AttributeSet
 import android.view.View
 import com.example.androidgraphicsintro.MatrixTwoDim
 import com.example.androidgraphicsintro.MathUtils
-class MyView(context: Context, attrs: AttributeSet? = null): View(context, attrs) {
+
+// Module 1: Affine transformations
+class AffineTransformationsView(context: Context, attrs: AttributeSet? = null): View(context, attrs) {
 
     var redPaint: Paint
     var bluePaint: Paint

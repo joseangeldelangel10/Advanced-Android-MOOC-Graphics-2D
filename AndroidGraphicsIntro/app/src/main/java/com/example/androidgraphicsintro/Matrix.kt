@@ -52,11 +52,17 @@ class MatrixTwoDim {
         return MatrixTwoDim(resultHeight, resultWidth, result)
     }
 
-    /*
     fun transpose(): MatrixTwoDim {
-        // var result
+        var result: MutableList<MutableList<Float>> = MutableList(this.width){
+            MutableList(this.height){0.0F}
+        }
+        for (i in 0 until this.height){
+            for (j in 0 until this.width){
+                result[j][i] = this.values[i][j]
+            }
+        }
+        return MatrixTwoDim(this.width, this.height, result)
     }
-     */
 
 }
 
