@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.Path
+import android.graphics.Point
 import android.util.AttributeSet
 import android.view.View
 
@@ -12,6 +13,7 @@ class MyView(context: Context, attrs: AttributeSet? = null): View(context, attrs
     var redPaint: Paint
     var bluePaint: Paint
     var myPaint: Paint
+    var polygon: ArrayList<Point>
 
     init {
         // no need to call super() since that is done internally by kotlin as seen in https://tinyurl.com/2s5z4ttr
@@ -29,14 +31,32 @@ class MyView(context: Context, attrs: AttributeSet? = null): View(context, attrs
         myPaint.style = Paint.Style.STROKE
         myPaint.color = 0xff000000.toInt()
         myPaint.strokeWidth = 5F
+
+        polygon = listOf<Point>(
+            Point(50, 300),
+            Point(150, 400),
+            Point(180, 340),
+            Point(240, 420),
+            Point(300, 200),
+        ) as ArrayList<Point>
+    }
+
+    fun drawPolygon(canvas: Canvas?){
+        val path = Path()
+        path.reset()
+        path.moveTo(polygon[0].x.toFloat(), polygon[1].y.toFloat())
+        for (i in 1 until polygon.size){
+            path.lineTo(polygon[i].x.toFloat(), polygon[i].y.toFloat())
+        }
+        path.close()
+    }
+
+    fun affineTransformation(vertices: ArrayList<ArrayList<Point>>, matrix: ArrayList<ArrayList<Point>>){
+
     }
 
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
-        // add drawing code here
-        canvas?.drawRect(10F, 30F, 200F, 200F, this.redPaint)
-        canvas?.drawCircle(300F, 300F, 250F, this.bluePaint)
-        // canvas?.drawCircle(500F, 450F, 50F, this.redPaint)
         val lineCords = arrayListOf<ArrayList<Int>>(
             arrayListOf(50,300),
             arrayListOf(160,280),
