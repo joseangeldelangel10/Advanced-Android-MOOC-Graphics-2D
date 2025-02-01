@@ -7,6 +7,7 @@ import android.graphics.Path
 import android.graphics.Point
 import android.util.AttributeSet
 import android.view.View
+import com.example.androidgraphicsintro.MatrixTwoDim
 
 class MyView(context: Context, attrs: AttributeSet? = null): View(context, attrs) {
 
@@ -41,18 +42,27 @@ class MyView(context: Context, attrs: AttributeSet? = null): View(context, attrs
         ) as ArrayList<Point>
     }
 
-    fun drawPolygon(canvas: Canvas?){
+    fun drawPolygon(vertices: MatrixTwoDim, canvas: Canvas?, paint: Paint){
+        if (vertices.height != 3){
+            // consider matrix to be drawn can only be an homogeneus mat
+            // with indexes:
+            //      i=0 corresponding to x0_j
+            //      i=1 corresponding to y1_j
+            //      i=2 corresponding to 1_j
+            throw Exception("invalid vertices, please pass in a homogeneus mat")
+        }
         val path = Path()
         path.reset()
-        path.moveTo(polygon[0].x.toFloat(), polygon[1].y.toFloat())
+        path.moveTo(vertices.values[0][0], vertices.values[1][0])
         for (i in 1 until polygon.size){
-            path.lineTo(polygon[i].x.toFloat(), polygon[i].y.toFloat())
+            path.lineTo(vertices.values[0][i], vertices.values[1][i])
         }
         path.close()
+        canvas?.drawPath(path, paint)
     }
 
-    fun affineTransformation(vertices: ArrayList<ArrayList<Point>>, matrix: ArrayList<ArrayList<Point>>){
-
+    fun affineTransformation(vertices: MatrixTwoDim, matrix: MatrixTwoDim): MatrixTwoDim{
+        return vertices.multMat(matrix)
     }
 
     override fun onDraw(canvas: Canvas?) {

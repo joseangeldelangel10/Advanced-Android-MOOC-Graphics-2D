@@ -52,6 +52,12 @@ class MatrixTwoDim {
         return MatrixTwoDim(resultHeight, resultWidth, result)
     }
 
+    /*
+    fun transpose(): MatrixTwoDim {
+        // var result
+    }
+     */
+
 }
 
 object MatrixStatic {
