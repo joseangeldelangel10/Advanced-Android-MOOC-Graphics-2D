@@ -10,7 +10,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         // setContentView(R.layout.activity_main)
         // replace the view with my custom designed view
-        myView = MyView(this, null)
-        setContentView(myView)
+        // myView = MyView(this, null)
+        val view = PlottingGraphsView(this, null)
+        setContentView(view)
     }
 }
