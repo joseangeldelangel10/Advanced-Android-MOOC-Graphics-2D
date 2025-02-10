@@ -1,4 +1,4 @@
-package com.example.androidgraphicsintro
+package com.example.androidgraphicsintro.Graphics
 
 object MathUtils {
     fun degToRad(deg: Float): Double {

@@ -2,6 +2,7 @@ package com.example.androidgraphicsintro
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.example.androidgraphicsintro.TwoDimViews.PlottingGraphsView
 
 class MainActivity : AppCompatActivity() {
     var myView: MyView? = null

@@ -1,10 +1,11 @@
-package com.example.androidgraphicsintro
+package com.example.androidgraphicsintro.TwoDimViews
 
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.Path
+import com.example.androidgraphicsintro.Graphics.MatrixTwoDim
 
-object ShapeRenderer {
+object TwoDimShapeRenderer {
     fun drawPolygon(vertices: MatrixTwoDim, canvas: Canvas?, paint: Paint){
         if (vertices.height != 3){
             // consider matrix to be drawn can only be an homogeneus mat

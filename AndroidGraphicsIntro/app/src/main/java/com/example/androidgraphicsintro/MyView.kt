@@ -9,8 +9,9 @@ import android.graphics.Path
 import android.graphics.Shader
 import android.util.AttributeSet
 import android.view.View
-import com.example.androidgraphicsintro.MatrixTwoDim
-import com.example.androidgraphicsintro.MathUtils
+import com.example.androidgraphicsintro.Graphics.MathUtils
+import com.example.androidgraphicsintro.Graphics.MatrixTwoDim
+
 class MyView(context: Context, attrs: AttributeSet? = null): View(context, attrs) {
 
     var redPaint: Paint
@@ -62,7 +63,7 @@ class MyView(context: Context, attrs: AttributeSet? = null): View(context, attrs
         canvas?.drawPath(path, paint)
     }
 
-    fun affineTransformation(matA: MatrixTwoDim, matB: MatrixTwoDim): MatrixTwoDim{
+    fun affineTransformation(matA: MatrixTwoDim, matB: MatrixTwoDim): MatrixTwoDim {
         return matA.multMat(matB)
     }
 

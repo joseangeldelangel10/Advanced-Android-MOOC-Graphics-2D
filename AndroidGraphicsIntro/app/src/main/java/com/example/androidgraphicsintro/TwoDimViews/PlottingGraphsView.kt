@@ -1,16 +1,12 @@
-package com.example.androidgraphicsintro
+package com.example.androidgraphicsintro.TwoDimViews
 
 import android.content.Context
 import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.LinearGradient
 import android.graphics.Paint
-import android.graphics.Path
-import android.graphics.Shader
 import android.util.AttributeSet
 import android.view.View
-import com.example.androidgraphicsintro.MatrixTwoDim
-import com.example.androidgraphicsintro.MathUtils
+import com.example.androidgraphicsintro.Graphics.MatrixTwoDim
+import com.example.androidgraphicsintro.Graphics.TwoDimAffineTransformations
 
 class PlottingGraphsView(context: Context, attrs: AttributeSet? = null): View(context, attrs) {
 
@@ -37,14 +33,14 @@ class PlottingGraphsView(context: Context, attrs: AttributeSet? = null): View(co
         val yscale = height.toFloat()/(maxPoint.toFloat() - minPoint.toFloat())
         val xscale = width.toFloat()/points.size.toFloat()
 
-        var plotCords = AffineTransformations.translate(pointsMatHomogeneus, 0, -minPoint)
-        plotCords = AffineTransformations.scale(plotCords, xscale, yscale)
+        var plotCords = TwoDimAffineTransformations.translate(pointsMatHomogeneus, 0, -minPoint)
+        plotCords = TwoDimAffineTransformations.scale(plotCords, xscale, yscale)
 
         val plotPaint = Paint()
         plotPaint.color = 0xffff0000.toInt()
         plotPaint.style = Paint.Style.STROKE
         plotPaint.strokeWidth = 5F
-        ShapeRenderer.drawSegmentedLine(plotCords, canvas, plotPaint)
+        TwoDimShapeRenderer.drawSegmentedLine(plotCords, canvas, plotPaint)
     }
 
     override fun onDraw(canvas: Canvas?) {

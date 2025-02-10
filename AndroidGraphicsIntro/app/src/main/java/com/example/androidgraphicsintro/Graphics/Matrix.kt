@@ -1,4 +1,4 @@
-package com.example.androidgraphicsintro
+package com.example.androidgraphicsintro.Graphics
 
 import java.lang.Exception
 
@@ -14,7 +14,7 @@ class MatrixTwoDim {
     val values: MutableList<MutableList<Float>>
 
     constructor(dim1: Int, dim2: Int, vals: MutableList<MutableList<Float>>){
-        if (MatrixStatic.isValid(dim1, dim2, vals) ){
+        if (MatrixStatic.isValid(dim1, dim2, vals)){
             height = dim1
             width = dim2
             values = vals

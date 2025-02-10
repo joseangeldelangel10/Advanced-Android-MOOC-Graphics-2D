@@ -1,16 +1,17 @@
-package com.example.androidgraphicsintro
+package com.example.androidgraphicsintro.TwoDimViews
 
 import android.content.Context
 import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.LinearGradient
 import android.graphics.Paint
 import android.graphics.Path
+import android.graphics.Shader
 import android.util.AttributeSet
 import android.view.View
-import com.example.androidgraphicsintro.MatrixTwoDim
-import com.example.androidgraphicsintro.MathUtils
-
-// Module 1: Affine transformations
-class AffineTransformationsView(context: Context, attrs: AttributeSet? = null): View(context, attrs) {
+import com.example.androidgraphicsintro.Graphics.MatrixTwoDim
+import com.example.androidgraphicsintro.Graphics.MathUtils
+class AffineTransformationsAssignmentOneQOneView(context: Context, attrs: AttributeSet? = null): View(context, attrs) {
 
     var redPaint: Paint
     var bluePaint: Paint
@@ -62,7 +63,7 @@ class AffineTransformationsView(context: Context, attrs: AttributeSet? = null): 
         canvas?.drawPath(path, paint)
     }
 
-    fun affineTransformation(matA: MatrixTwoDim, matB: MatrixTwoDim): MatrixTwoDim{
+    fun affineTransformation(matA: MatrixTwoDim, matB: MatrixTwoDim): MatrixTwoDim {
         return matA.multMat(matB)
     }
 
@@ -89,8 +90,34 @@ class AffineTransformationsView(context: Context, attrs: AttributeSet? = null): 
         return affineTransformation(rotationMat, mat)
     }
 
+    fun scale(mat: MatrixTwoDim, xScaling: Float, yScaling: Float): MatrixTwoDim {
+        val rawScalingMat: MutableList<MutableList<Float>> = listOf<List<Float>>(
+            listOf(xScaling, 0F, 0F),
+            listOf(0F, yScaling, 0F),
+            listOf(0F, 0F, 1F),
+        ) as MutableList<MutableList<Float>>
+        val scalingMat = MatrixTwoDim(3, 3, rawScalingMat)
+        return affineTransformation(scalingMat, mat)
+    }
+
+    fun shear(mat: MatrixTwoDim, xFactor: Float, yFactor: Float): MatrixTwoDim {
+        val rawShearingMat: MutableList<MutableList<Float>> = listOf<List<Float>>(
+            listOf(1F, xFactor, 0F),
+            listOf(yFactor, 1F, 0F),
+            listOf(0F, 0F, 1F),
+        ) as MutableList<MutableList<Float>>
+        val shearingMat = MatrixTwoDim(3, 3, rawShearingMat)
+        return affineTransformation(shearingMat, mat)
+    }
+
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
+
+        val linear = LinearGradient(50F, 300F, 300F, 200F, Color.BLUE, Color.RED, Shader.TileMode.MIRROR)
+        val gradientPaint = Paint()
+        gradientPaint.style = Paint.Style.FILL
+        gradientPaint.shader = linear
+
         val polygonMat = MatrixTwoDim(5, 3, polygon)
         val homogeneusPolygonMat = polygonMat.transpose()
         drawPolygon(homogeneusPolygonMat, canvas, this.redPaint)
@@ -99,6 +126,13 @@ class AffineTransformationsView(context: Context, attrs: AttributeSet? = null): 
         val rotatedPolygonMat = rotate(homogeneusPolygonMat, 90)
         val rotatedPolygonMatTwo = translate(rotatedPolygonMat, 1000, 1000)
         drawPolygon(rotatedPolygonMatTwo, canvas, this.myPaint)
+
+        // answer to assignment
+        val sharedPolygon = shear(homogeneusPolygonMat, 2.0F, 0.0F)
+        val scaledPolygon = scale(sharedPolygon, 0.5F, 3.0F)
+        val rotatedPolygon = rotate(scaledPolygon, 45)
+        val translatedPolygon = translate(rotatedPolygon, 550, 0)
+        drawPolygon(translatedPolygon, canvas, gradientPaint)
     }
 
 }

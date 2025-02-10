@@ -1,7 +1,7 @@
-package com.example.androidgraphicsintro
+package com.example.androidgraphicsintro.Graphics
 
-object AffineTransformations {
-    fun affineTransformation(matA: MatrixTwoDim, matB: MatrixTwoDim): MatrixTwoDim{
+object TwoDimAffineTransformations {
+    fun affineTransformation(matA: MatrixTwoDim, matB: MatrixTwoDim): MatrixTwoDim {
         return matA.multMat(matB)
     }
 
