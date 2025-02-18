@@ -6,6 +6,7 @@ import android.widget.TextView
 import android.widget.ViewAnimator
 import com.example.androidgraphicsintro.ThreeDimViews.DrawingCubeView
 import com.example.androidgraphicsintro.ThreeDimViews.LeftToRightCubeView
+import com.example.androidgraphicsintro.ThreeDimViews.QuaternionRotView
 import com.example.androidgraphicsintro.TwoDimViews.PlottingGraphsView
 
 class MainActivity : AppCompatActivity() {
@@ -17,7 +18,7 @@ class MainActivity : AppCompatActivity() {
         // replace the view with my custom designed view
         // myView = MyView(this, null)
         try {
-            val view = LeftToRightCubeView(this, null)
+            val view = QuaternionRotView(this, null)
             setContentView(view)
         } catch (e: Exception){
             val textView = TextView(this)

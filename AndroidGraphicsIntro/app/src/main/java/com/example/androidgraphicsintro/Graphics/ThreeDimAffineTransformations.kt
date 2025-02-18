@@ -100,6 +100,21 @@ object ThreeDimAffineTransformations {
         return affineTransformation(rotationMat, mat)
     }
 
+    fun rotateWithQuaternion(mat: MatrixTwoDim, w: Float, x: Float, y: Float, z: Float): MatrixTwoDim {
+        val w_sq = w*w
+        val x_sq = x*x
+        val y_sq = y*y
+        val z_sq = z*z
+        val rawRotationMat: MutableList<MutableList<Float>> = listOf<List<Float>>(
+            listOf(w_sq + x_sq - y_sq - z_sq, 2*x*y - 2*w*z, 2*x*z + 2*w*y, 0F),
+            listOf(2*x*y + 2*w*z, w_sq + y_sq - x_sq - z_sq, 2*y*z - 2*w*x, 0F),
+            listOf(2*x*z - 2*w*y, 2*y*z + 2*w*x, w_sq + z_sq - x_sq - y_sq, 0F),
+            listOf(0F, 0F, 0F, 1F),
+        ) as MutableList<MutableList<Float>>
+        val rotationMat = MatrixTwoDim(4, 4, rawRotationMat)
+        return affineTransformation(rotationMat, mat)
+    }
+
     fun scale(mat: MatrixTwoDim, xScaling: Float, yScaling: Float, zScaling: Float): MatrixTwoDim {
         validateMat(mat)
         val rawScalingMat: MutableList<MutableList<Float>> = listOf<List<Float>>(
