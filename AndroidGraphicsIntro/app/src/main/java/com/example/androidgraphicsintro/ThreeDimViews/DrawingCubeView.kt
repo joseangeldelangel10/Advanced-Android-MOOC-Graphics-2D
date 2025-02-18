@@ -34,11 +34,12 @@ class DrawingCubeView(context: Context, attrs: AttributeSet? = null): View(conte
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
 
-        var cubeVertices = ThreeDimShapeFactory.getCube(arrayListOf(1.0F, 1.0F, 1.0F), 40.0F)
+        var cubeVertices = ThreeDimShapeFactory.getCube(arrayListOf(0.0F, 0.0F, 0.0F), 40.0F)
         cubeVertices = ThreeDimAffineTransformations.scale(cubeVertices, 3F, 3F, 3F)
         ThreeDimShapeRenderer.drawCube(cubeVertices, redPaint, canvas)
 
-        var rotatedCube = ThreeDimAffineTransformations.translate(cubeVertices, 240, 80, 0)
+        // var rotatedCube = ThreeDimAffineTransformations.translate(cubeVertices, 240, 80, 0)
+        var rotatedCube = cubeVertices
         rotatedCube = ThreeDimAffineTransformations.rotateZ(rotatedCube, 100)
         rotatedCube = ThreeDimAffineTransformations.rotateY(rotatedCube, 30)
         rotatedCube = ThreeDimAffineTransformations.translate(rotatedCube, 240, 0,0)

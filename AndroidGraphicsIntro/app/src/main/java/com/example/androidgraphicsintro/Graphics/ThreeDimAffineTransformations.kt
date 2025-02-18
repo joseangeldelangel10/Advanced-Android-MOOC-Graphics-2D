@@ -4,6 +4,8 @@ import kotlin.math.cos
 
 object ThreeDimAffineTransformations {
     fun affineTransformation(matA: MatrixTwoDim, matB: MatrixTwoDim): MatrixTwoDim {
+        validateIsCube(matB)
+        validateMat(matA)
         var rawMult = matA.multMat(matB)
         // normalize
         val wValues = rawMult.values[3]
@@ -19,12 +21,25 @@ object ThreeDimAffineTransformations {
                 }
             }
         }
+        val normalizedCorrectly = rawMult.values[3].all { x -> x == 1.0F }
+        if (!normalizedCorrectly){
+            throw Exception("failed normalizing matrix")
+        }
         return rawMult
     }
 
     fun validateMat(mat: MatrixTwoDim){
         if (mat.height != 4){
             throw Exception("Invalid input matrix passed, input matrix should have a size 4xN")
+        }
+    }
+
+    fun validateIsCube(mat: MatrixTwoDim){
+        if (mat.height != 4) {
+            throw Exception("Invalid input matrix passed, matrix deoes not reresent a cube, failed height")
+        }
+        if (mat.width != 8) {
+            throw Exception("Invalid input matrix passed, matrix deoes not reresent a cube, failed width")
         }
     }
 
@@ -57,7 +72,7 @@ object ThreeDimAffineTransformations {
 
     fun rotateY(mat: MatrixTwoDim, angleDeg: Int): MatrixTwoDim {
         validateMat(mat)
-        val angleRad = MathUtils.degToRad(angleDeg.toFloat())
+        val angleRad = -MathUtils.degToRad(angleDeg.toFloat()) // we invert the angle since we want y axis to also follow right hand rule
         val cosTheta = Math.cos(angleRad).toFloat()
         val sinTheta = Math.sin(angleRad).toFloat()
         val rawRotationMat: MutableList<MutableList<Float>> = listOf<List<Float>>(

@@ -27,6 +27,17 @@ object ThreeDimShapeRenderer {
         }
         val  horizontalVertices = vertices.transpose()
         // line for v0 to v1
+        /**
+         * [ x , y, x]
+         * [ 00, 01, 02]   v0
+         * [ 10, 11, 12]   v1
+         * [ 20, 21, 22]   v2
+         * [ 30, 31, 32]   v3
+         * [ 40, 41, 42]   v4
+         * [ 50, 51, 52]   v5
+         * [ 60, 61, 62]   v6
+         * [ 70, 71, 72]   v7
+         */
         canvas?.drawLine(
             horizontalVertices.values[0][0],
             horizontalVertices.values[0][1],
